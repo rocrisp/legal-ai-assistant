@@ -27,6 +27,10 @@ This application requires API keys for certain features:
 
 ### Setting Up Environment Variables
 
+You have two options for setting up your API keys:
+
+#### Option 1: Using .env file (Recommended)
+
 1. **Copy the example file:**
    ```bash
    cp env.example .env
@@ -46,10 +50,23 @@ This application requires API keys for certain features:
    # macOS/Linux
    export $(cat .env | xargs)
    
-   # Or set them manually:
-   export FIREWORKS_API_KEY="your_key_here"
-   export TAVILY_API_KEY="your_key_here"
+   # Windows (PowerShell)
+   Get-Content .env | ForEach-Object { if($_ -match "^([^=]+)=(.*)$") { [Environment]::SetEnvironmentVariable($matches[1], $matches[2]) } }
    ```
+
+#### Option 2: Manual export (Alternative)
+
+If you prefer not to use a .env file, you can set the variables manually:
+
+```bash
+# macOS/Linux
+export FIREWORKS_API_KEY="your_key_here"
+export TAVILY_API_KEY="your_key_here"
+
+# Windows (PowerShell)
+$env:FIREWORKS_API_KEY="your_key_here"
+$env:TAVILY_API_KEY="your_key_here"
+```
 
 **Note**: If you're only using Ollama (local models), you don't need the Fireworks API key.
 
@@ -102,11 +119,13 @@ Download and install from: https://ollama.ai/download
     pip install -r requirements.txt
     ```
 
-     **Note for Ollama Users:**
-    If you plan to use the `ollama` or the `fireworks` provider, you must run the following Llama Stack command. This command sets up the necessary configuration for Llama Stack to communicate with your local Ollama instance.
-
+4.  **Llama Stack Setup (Required for all users):**
+    
     ```bash
+    # Additional setup for fireworks users
     UV_SYSTEM_PYTHON=1 llama stack build --template fireworks --image-type venv
+    
+    # Additional setup for Ollama users
     UV_SYSTEM_PYTHON=1 llama stack build --template ollama --image-type venv
     ```
 
@@ -138,6 +157,11 @@ streamlit run app.py
 - Ensure Ollama service is running: `ollama serve`
 - Check if model is available: `ollama list`
 - Verify Ollama is accessible: `curl http://localhost:11434/api/tags`
+
+**Llama Stack Issues:**
+- Make sure you've run both the Fireworks and Ollama setup commands
+- Verify that `UV_SYSTEM_PYTHON=1` is set before running the build commands
+- Check that the virtual environment is activated when running the application
 
 ## References
 
