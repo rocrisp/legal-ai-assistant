@@ -1,0 +1,11 @@
+streamlit
+llama-stack
+llama-stack-client
+pydantic
+rich
+tavily-python
+aiosqlite
+ollama
+fireworks-ai
+fire
+protobuf
